@@ -4,15 +4,21 @@
 <head>
 <meta charset="UTF-8">
 <title>@Minyh</title>
+
 <link rel="icon" type="image/png" href="webicon.png">
+
 <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
+<div id="enter-screen">
+  <p>click to enter...</p>
+</div>
 <div class="background"></div>
+
 <div class="card">
 
 <div class="clock-box">
@@ -57,9 +63,41 @@
 
 </div>
 
+<!-- MUSIC PLAYER -->
+
+<div class="music-player">
+
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<input type="range" id="volume" min="0" max="0.3" step="0.01" value="0.15">
+
 </div>
 
-<script src="./scripts/clock.js"></script>
+</div>
+
+<script src="scripts/clock.js"></script>
+
+<script>
+const music = document.getElementById("music");
+const volume = document.getElementById("volume");
+const enter = document.getElementById("enter-screen");
+
+music.volume = volume.value;
+
+volume.addEventListener("input", () => {
+  music.volume = volume.value;
+});
+
+enter.addEventListener("click", () => {
+  music.play();
+  enter.style.opacity = "0";
+  setTimeout(() => {
+    enter.style.display = "none";
+  }, 500);
+});
+</script>
 
 </body>
 </html>
