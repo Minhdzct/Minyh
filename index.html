@@ -14,9 +14,11 @@
 </head>
 
 <body>
+
 <div id="enter-screen">
   <p>click to enter...</p>
 </div>
+
 <div class="background"></div>
 
 <div class="card">
@@ -75,14 +77,24 @@
 
 </div>
 
-</div>
+</div> <!-- END CARD -->
+
+
+<!-- CONFETTI BUTTON (OUTSIDE CARD) -->
+
+<img src="button.png" id="confettiBtn">
+
 
 <script src="scripts/clock.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <script>
+
 const music = document.getElementById("music");
 const volume = document.getElementById("volume");
 const enter = document.getElementById("enter-screen");
+const btn = document.getElementById("confettiBtn");
 
 music.volume = volume.value;
 
@@ -93,11 +105,60 @@ volume.addEventListener("input", () => {
 enter.addEventListener("click", () => {
   music.play();
   enter.style.opacity = "0";
+
   setTimeout(() => {
     enter.style.display = "none";
+    btn.style.display = "block";   // ADD THIS
   }, 500);
 });
-</script>
 
+/* CONFETTI BUTTON */
+
+btn.addEventListener("click", () => {
+
+  btn.src = "doro.png";
+
+  btn.classList.add("shake");
+  setTimeout(() => btn.classList.remove("shake"), 400);
+
+  confetti({
+    particleCount:120,
+    spread:70,
+    origin:{x:0}
+  });
+
+  confetti({
+    particleCount:120,
+    spread:70,
+    origin:{x:1}
+  });
+
+  setTimeout(() => {
+    btn.src = "button.png";
+  }, 800);
+
+});
+
+</script>
+<script>
+
+document.body.classList.add("fade-in");
+
+document.querySelectorAll("a").forEach(link => {
+  if(link.hostname === window.location.hostname){
+    link.addEventListener("click", function(e){
+      e.preventDefault();
+      const url = this.href;
+
+      document.body.style.opacity = 0;
+
+      setTimeout(()=>{
+        window.location.href = url;
+      },300);
+    });
+  }
+});
+
+</script>
 </body>
 </html>
