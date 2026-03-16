@@ -38,7 +38,7 @@
 <p class="bio">Maybe add my Discord?</p>
 
 <div class="discord-card">
-<img src="https://lanyard.cnrad.dev/api/840199281998299206?hideBadges=true&bg=1a1a1a50">
+<img id="discord-status" src="https://lanyard.cnrad.dev/api/840199281998299206?hideBadges=true&bg=1a1a1a50">
 </div>
 
 <div class="socials">
@@ -139,6 +139,12 @@ btn.addEventListener("click", () => {
 
 });
 
+</script>
+<script>
+setInterval(() => {
+  const img = document.getElementById("discord-status");
+  img.src = "https://lanyard.cnrad.dev/api/840199281998299206?hideBadges=true&bg=1a1a1a50&t=" + Date.now();
+}, 10000);
 </script>
 <script>
 
