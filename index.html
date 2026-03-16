@@ -140,12 +140,41 @@ btn.addEventListener("click", () => {
 });
 
 </script>
+  
 <script>
+const userId = "840199281998299206";
+const img = document.getElementById("discord-status");
+
+// reload ảnh mỗi 1 giây
 setInterval(() => {
-  const img = document.getElementById("discord-status");
-  img.src = "https://lanyard.cnrad.dev/api/840199281998299206?hideBadges=true&bg=1a1a1a50&t=" + Date.now();
-}, 10000);
+  img.src = `https://lanyard.cnrad.dev/api/${userId}?hideBadges=true&bg=1a1a1a50&t=${Date.now()}`;
+}, 5000);
+
+// websocket để nhận event
+const socket = new WebSocket("wss://api.lanyard.rest/socket");
+
+socket.onopen = () => {
+  socket.send(JSON.stringify({
+    op: 2,
+    d: { subscribe_to_id: userId }
+  }));
+};
+
+socket.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+
+  if (data.op === 1) {
+    setInterval(() => {
+      socket.send(JSON.stringify({ op: 3 }));
+    }, data.d.heartbeat_interval);
+  }
+
+  if (data.t === "PRESENCE_UPDATE" || data.t === "INIT_STATE") {
+    img.src = `https://lanyard.cnrad.dev/api/${userId}?hideBadges=true&bg=1a1a1a50&t=${Date.now()}`;
+  }
+};
 </script>
+  
 <script>
 
 document.body.classList.add("fade-in");
