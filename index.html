@@ -79,11 +79,9 @@
 
 </div> <!-- END CARD -->
 
-
 <!-- CONFETTI BUTTON (OUTSIDE CARD) -->
 
 <img src="button.png" id="confettiBtn">
-
 
 <script src="scripts/clock.js"></script>
 
@@ -108,8 +106,9 @@ enter.addEventListener("click", () => {
 
   setTimeout(() => {
     enter.style.display = "none";
-    btn.style.display = "block";   // ADD THIS
-  }, 500);
+    document.querySelector(".card").classList.add("visible");
+    btn.style.display = "block";
+  }, 600);
 });
 
 /* CONFETTI BUTTON */
@@ -140,17 +139,15 @@ btn.addEventListener("click", () => {
 });
 
 </script>
-  
+
 <script>
 const userId = "840199281998299206";
 const img = document.getElementById("discord-status");
 
-// reload ảnh mỗi 1 giây
 setInterval(() => {
   img.src = `https://lanyard.cnrad.dev/api/${userId}?hideBadges=true&bg=1a1a1a50&t=${Date.now()}`;
 }, 5000);
 
-// websocket để nhận event
 const socket = new WebSocket("wss://api.lanyard.rest/socket");
 
 socket.onopen = () => {
@@ -174,7 +171,7 @@ socket.onmessage = (event) => {
   }
 };
 </script>
-  
+
 <script>
 
 document.body.classList.add("fade-in");
