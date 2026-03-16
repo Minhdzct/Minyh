@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Minyh Setup</title>
+
+<link rel="icon" type="image/png" href="webicon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="card setup-fade">
+
+<h1 class="namepc">PC Setup</h1>
+
+<div class="setup-list">
+
+<p><b>CPU</b>Intel Core i5-12600K</p>
+<p><b>GPU</b>ASUS Dual RTX 4060 EVO OC 8GB</p>
+<p><b>MB</b> ASRock B760M Pro RS/D4</p>
+<p><b>RAM</b>32GB (2×16) ADATA XPG D35G DDR4-3200</p>
+<p><b>SSD</b>1TB KIOXIA EXCERIA G3 Plus NVMe Gen4</p>
+<p><b>SSD</b>1TB KIOXIA EXCERIA G3 Plus NVMe Gen4</p>
+<p><b>HDD</b>1TB Western Digital 5400RPM</p>
+<p><b>EXT</b>500GB Intel NVMe (External)</p>
+<p><b>CASE</b>MONTECH X2 Mesh</p>
+<p><b>PSU</b>MSI MAG A650BN 650W</p>
+
+</div>
+
+<br>
+
+<a href="index.html">← Back</a>
+
+</div>
+
+</body>
+<script>
+
+document.body.classList.add("fade-in");
+
+document.querySelectorAll("a").forEach(link => {
+  if(link.hostname === window.location.hostname){
+    link.addEventListener("click", function(e){
+      e.preventDefault();
+      const url = this.href;
+
+      document.body.style.opacity = 0;
+
+      setTimeout(()=>{
+        window.location.href = url;
+      },300);
+    });
+  }
+});
+
+</script>
+</html>
