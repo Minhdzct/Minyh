@@ -37,8 +37,33 @@
 <p class="bio">Just a plain human, nothing to see here~</p>
 <p class="bio">Maybe add my Discord?</p>
 
-<div class="discord-card">
-<img id="discord-status" src="https://lanyard.cnrad.dev/api/840199281998299206?hideBadges=true&bg=1a1a1a50">
+<!-- DISCORD PROFILE -->
+
+<div class="discord-profile">
+  <img
+    id="discord-status" 
+    src="https://lanyard.cnrad.dev/api/840199281998299206?hideBadges=true&hideActivity=true&bg=11111110"
+    alt="Discord Status"
+  >
+</div>
+
+
+<!-- DISCORD ACTIVITY (LIVE) -->
+
+<div class="discord-activity discord">
+
+  <div class="activity-left">
+    <div class="large-image"></div>
+    <!-- div class="small-image"></div -->
+  </div>
+
+  <div class="activity-right">
+    <div class="activity"></div>
+    <div class="details"></div>
+    <div class="state"></div>
+    <div class="timestamp"></div>
+  </div>
+
 </div>
 
 <div class="socials">
@@ -79,9 +104,11 @@
 
 </div> <!-- END CARD -->
 
+
 <!-- CONFETTI BUTTON (OUTSIDE CARD) -->
 
 <img src="button.png" id="confettiBtn">
+
 
 <script src="scripts/clock.js"></script>
 
@@ -139,39 +166,21 @@ btn.addEventListener("click", () => {
 });
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@lanyard/web/dist/index.min.js"></script>
+
+<img id="discord-status">
 
 <script>
 const userId = "840199281998299206";
 const img = document.getElementById("discord-status");
 
+// reload ảnh mỗi 1 giây
 setInterval(() => {
-  img.src = `https://lanyard.cnrad.dev/api/${userId}?hideBadges=true&bg=1a1a1a50&t=${Date.now()}`;
+  img.src = `https://lanyard.cnrad.dev/api/${userId}?hideBadges=true&hideActivity=true&bg=11111110&t=${Date.now()}`;
 }, 5000);
-
-const socket = new WebSocket("wss://api.lanyard.rest/socket");
-
-socket.onopen = () => {
-  socket.send(JSON.stringify({
-    op: 2,
-    d: { subscribe_to_id: userId }
-  }));
-};
-
-socket.onmessage = (event) => {
-  const data = JSON.parse(event.data);
-
-  if (data.op === 1) {
-    setInterval(() => {
-      socket.send(JSON.stringify({ op: 3 }));
-    }, data.d.heartbeat_interval);
-  }
-
-  if (data.t === "PRESENCE_UPDATE" || data.t === "INIT_STATE") {
-    img.src = `https://lanyard.cnrad.dev/api/${userId}?hideBadges=true&bg=1a1a1a50&t=${Date.now()}`;
-  }
-};
 </script>
 
+<script src="scripts/lanyard.js"></script>
 <script>
 
 document.body.classList.add("fade-in");
@@ -194,3 +203,4 @@ document.querySelectorAll("a").forEach(link => {
 </script>
 </body>
 </html>
+
