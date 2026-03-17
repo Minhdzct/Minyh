@@ -43,9 +43,12 @@
 
 </body>
 <script>
-
 document.body.classList.add("fade-in");
 
+// show the card (this is the important fix)
+document.querySelector(".card").classList.add("visible");
+
+// link transition
 document.querySelectorAll("a").forEach(link => {
   if(link.hostname === window.location.hostname){
     link.addEventListener("click", function(e){
@@ -60,6 +63,5 @@ document.querySelectorAll("a").forEach(link => {
     });
   }
 });
-
 </script>
 </html>
