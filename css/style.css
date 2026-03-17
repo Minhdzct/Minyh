@@ -466,3 +466,48 @@ transform:translateX(4px);
 .setup-list p:hover b{
 text-shadow:0 0 6px currentColor;
 }
+
+
+/* BRAND COLORS */
+
+.setup-list p:nth-child(1) b{ color:#0071c5;}
+.setup-list p:nth-child(2) b{ color:#76b900;}
+.setup-list p:nth-child(3) b{ color:#f7c600;}
+.setup-list p:nth-child(4) b{ color:#e63946;}
+.setup-list p:nth-child(5) b,
+.setup-list p:nth-child(6) b{ color:#FDAE44;}
+.setup-list p:nth-child(7) b{ color:#FDAE44;}
+.setup-list p:nth-child(8) b{ color:#FDAE44;}
+.setup-list p:nth-child(9) b{ color:#e5e7eb;}
+.setup-list p:nth-child(10) b{ color:#ff0000;}
+
+.namepc{
+
+background:linear-gradient(
+90deg,
+red,orange,yellow,lime,cyan,blue,violet,red
+);
+
+background-size:400%;
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+animation:rgbFlow 18s linear infinite;
+
+}
+
+@keyframes rgbFlow{
+0%{background-position:0%}
+100%{background-position:400%}
+}
+
+.setup-fade{
+opacity:0;
+animation:setupFade 0.5s ease forwards;
+}
+
+@keyframes setupFade{
+from{opacity:0; transform:translateY(8px);}
+to{opacity:1; transform:translateY(0);}
+}
