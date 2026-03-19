@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<!-- Discord / Open Graph embed -->
+<meta property="og:title" content="Ủng hộ Minyh 💝" />
+<meta property="og:description" content="Nhận lì xì mọi lúc mọi nơi" />
+<meta property="og:image" content="https://minyh.pages.dev/qr.png" />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#ce1f3a" />
+<title>Minyh — Ủng hộ</title>
+
+<link rel="icon" type="image/png" href="../webicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+  .donate-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .donate-heart {
+    font-size: 2.2rem;
+    animation: heartbeat 1.4s ease-in-out infinite;
+    display: block;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+
+  @keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    14%      { transform: scale(1.25); }
+    28%      { transform: scale(1); }
+    42%      { transform: scale(1.15); }
+    56%      { transform: scale(1); }
+  }
+
+  .namedonate {
+    font-family: 'Playpen Sans', cursive;
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin: 0 0 4px;
+    text-align: center;
+  }
+
+  .donate-sub {
+    font-family: 'Playpen Sans', cursive;
+    font-size: 0.82rem;
+    opacity: 0.55;
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  .qr-card {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: default;
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .qr-card:hover {
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.32), 0 0 0 1px rgba(255,255,255,0.12);
+  }
+
+  .qr-card img {
+    display: block;
+    width: 100%;
+    border-radius: 18px;
+  }
+
+  .qr-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.07) 50%, transparent 70%);
+    border-radius: 18px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .qr-card:hover::after { opacity: 1; }
+
+  /* pills wrapper — makes both pills same width & aligned */
+  .pills-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 18px;
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .bank-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 40px;
+    padding: 10px 18px;
+    font-family: 'Playpen Sans', cursive;
+    font-size: 0.78rem;
+    backdrop-filter: blur(6px);
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+  }
+
+  .bank-pill .bank-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+  .bank-pill .bank-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .bank-pill .bank-name {
+    font-weight: 700;
+    opacity: 0.9;
+    font-size: 0.8rem;
+    text-transform: none;
+  }
+
+  .bank-pill .bank-num {
+    opacity: 0.6;
+    font-size: 0.73rem;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: none;
+  }
+
+  .copy-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    color: inherit;
+    font-family: 'Playpen Sans', cursive;
+    font-size: 0.68rem;
+    padding: 3px 9px;
+    cursor: pointer;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .copy-btn:hover  { background: rgba(255,255,255,0.18); }
+  .copy-btn.copied { background: rgba(80,200,120,0.25); border-color: rgba(80,200,120,0.4); }
+
+  .donate-note {
+    font-family: 'Playpen Sans', cursive;
+    font-size: 0.73rem;
+    opacity: 0.38;
+    text-align: center;
+    margin-top: 16px;
+    line-height: 1.6;
+    max-width: 230px;
+  }
+
+  .donate-back { margin-top: 22px; }
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="card setup-fade donate-wrap">
+
+  <span class="donate-heart">💝</span>
+  <h1 class="namedonate">Support Me </h1>
+  <p class="donate-sub" style="margin-top: 0;">Currently only for Vietnamese donation..</p>
+  <p class="donate-sub" style="margin-top: 0;">Nhận lì xì mọi lúc mọi nơi, cảm ơn nhiều!</p>
+
+  <div class="qr-card">
+    <img src="../qr.png" alt="Mã QR VietQR — MB Bank" />
+  </div>
+
+  <div class="pills-wrap">
+
+    <div class="bank-pill">
+      <div class="bank-details">
+        <span class="bank-name">BUI NGUYEN NHAT MINH</span>
+        <span class="bank-num">
+          MB Bank · 0357797610
+          <button class="copy-btn" id="copy-mb" onclick="copyNum('0357797610','copy-mb')">sao chép</button>
+        </span>
+      </div>
+    </div>
+
+    <div class="bank-pill">
+      <div class="bank-details">
+        <span class="bank-name">BUI NGUYEN NHAT MINH</span>
+        <span class="bank-num">
+          Momo · 0357797610
+          <button class="copy-btn" id="copy-momo" onclick="copyNum('0357797610','copy-momo')">sao chép</button>
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="donate-note">
+    Mở app ngân hàng của bạn,<br>
+    quét QR hoặc chuyển khoản trực tiếp.<br>
+    Mỗi chút đều có ý nghĩa — cảm ơn! 💕
+  </p>
+
+  <a class="donate-back" href="../index.html">← Quay lại</a>
+
+</div>
+
+</body>
+<script>
+document.body.classList.add("fade-in");
+document.querySelector(".card").classList.add("visible");
+
+document.querySelectorAll("a").forEach(link => {
+  if (link.hostname === window.location.hostname) {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      const url = this.href;
+      document.body.style.opacity = 0;
+      setTimeout(() => { window.location.href = url; }, 300);
+    });
+  }
+});
+
+function copyNum(num, btnId) {
+  const btn = document.getElementById(btnId);
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(num).then(onCopied);
+  } else {
+    const ta = document.createElement("textarea");
+    ta.value = num;
+    ta.style.cssText = "position:fixed;top:-999px;left:-999px;opacity:0;";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand("copy");
+      onCopied();
+    } catch(e) {
+      btn.textContent = "❌ thất bại";
+      setTimeout(() => { btn.textContent = "copy"; }, 2000);
+    }
+    document.body.removeChild(ta);
+  }
+
+  function onCopied() {
+    btn.textContent = "✓ đã sao chép!";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.textContent = "copy";
+      btn.classList.remove("copied");
+    }, 2000);
+  }
+}
+</script>
+</html>
