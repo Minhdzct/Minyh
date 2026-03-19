@@ -16,6 +16,22 @@
 <link rel="stylesheet" href="../css/style.css">
 
 <style>
+#zoom {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+#zoom img {
+  width: 50%;
+  height: 50%;
+  object-fit: contain; /* giữ tỉ lệ, không méo */
+  border-radius: 0;
+}
   .donate-wrap {
     display: flex;
     flex-direction: column;
@@ -185,7 +201,7 @@
   <p class="donate-sub" style="margin-top: 0;">Nhận lì xì mọi lúc mọi nơi, cảm ơn nhiều!</p>
 
   <div class="qr-card">
-    <img src="../qr.png" alt="Mã QR VietQR — MB Bank" />
+    <img src="../qr.png" onclick="openImg(this)" alt="Mã QR VietQR — MB Bank" />
   </div>
 
   <div class="pills-wrap">
@@ -221,7 +237,18 @@
   <a class="donate-back" href="../index.html">← Quay lại</a>
 
 </div>
+<div id="zoom" onclick="this.style.display='none'">
+  <img id="zoom-img">
+</div>
 
+<script>
+function openImg(el) {
+  const zoom = document.getElementById("zoom");
+  const img = document.getElementById("zoom-img");
+  img.src = el.src;
+  zoom.style.display = "flex";
+}
+</script>
 </body>
 <script>
 document.body.classList.add("fade-in");
