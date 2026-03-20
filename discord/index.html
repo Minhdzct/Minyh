@@ -4,11 +4,13 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- Open Graph (clean / minimal) -->
-<meta property="og:title" content="‎" />
-<meta property="og:description" content="‎" />
-<meta property="og:image" content="https://lanyard-profile-readme.vercel.app/api/840199281998299206" />
+<!-- Open Graph -->
+<meta property="og:title" content="Discord? Doro?" />
+<meta property="og:description" content="Chủ tịch Doro!!!" />
+<meta property="og:image" content="https://minyh.pages.dev/discord.gif" />
 <meta property="og:type" content="website" />
+<meta property="og:url" content="https://minyh.pages.dev/qr/" />
+
 <meta name="twitter:card" content="summary_large_image" /> 
 <meta name="theme-color" content="#ce1f3a" />
 
@@ -45,19 +47,10 @@
 </div>
 
 <script>
-document.body.classList.add("fade-in");
-document.querySelector(".card").classList.add("visible");
-
-document.querySelectorAll("a").forEach(link => {
-  if (link.hostname === window.location.hostname) {
-    link.addEventListener("click", function(e) {
-      e.preventDefault();
-      const url = this.href;
-      document.body.style.opacity = 0;
-      setTimeout(() => { window.location.href = url; }, 300);
-    });
-  }
-});
+// Delay redirect slightly so bots can read OG tags
+setTimeout(() => {
+  window.location.href = "https://discord.gg/kdNFAmyzwu";
+}, 300);
 </script>
 
 </body>
