@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="Lịch Tuần của Thy 🌸" />
+  <meta property="og:description" content="" />
+  <meta property="og:image" content="https://minyh.pages.dev/schedule.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" /> 
+  <meta name="theme-color" content="#fddced" />
+  <title>Lịch Tuần của Thy 🌸</title>
+  <link rel="icon" type="image/png" href="../webicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink-100: #ffd6e7;
+      --pink-200: #ffadd2;
+      --pink-400: #f759ab;
+      --pink-500: #eb2f96;
+      --text-dark: #4a1942;
+      --text-mid:  #7b3f6e;
+      --text-soft: #b06090;
+      --shadow-sm: 0 2px 10px rgba(235,47,150,0.10);
+      --shadow-lg: 0 12px 40px rgba(235,47,150,0.18);
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Playpen Sans', cursive;
+      background: linear-gradient(135deg, #fff0f6 0%, #ffd6e7 25%, #f3e8ff 55%, #ffe4ef 80%, #fff0f6 100%);
+      min-height: 100vh;
+      color: var(--text-dark);
+      padding: 0 0 60px 0;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 10% 20%, rgba(255,173,210,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 90% 80%, rgba(243,232,255,0.25) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* HEADER */
+    header { position: relative; text-align: center; padding: 52px 20px 36px; z-index: 1; }
+    .header-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ffb3d1, #f9a8d4, #e879b0);
+      color: white; font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 6px 18px; border-radius: 100px; margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(233,121,176,0.4);
+    }
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 800;
+      background: linear-gradient(135deg, #d63384 0%, #e879b0 40%, #c026d3 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1.15; margin-bottom: 12px;
+      animation: shimmer 4s linear infinite;
+    }
+    @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+    .header-week { font-size: 1rem; color: var(--text-soft); font-weight: 500; }
+    .header-week span {
+      background: rgba(255,255,255,0.7); padding: 4px 14px;
+      border-radius: 100px; border: 1px solid var(--pink-200);
+    }
+
+    /* NOTE */
+    .note-banner { max-width: 900px; margin: 0 auto 28px; padding: 0 20px; position: relative; z-index: 1; }
+    .note-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,228,239,0.9));
+      border: 1.5px solid var(--pink-200); border-radius: var(--radius);
+      padding: 16px 22px; box-shadow: var(--shadow-sm); backdrop-filter: blur(10px);
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .note-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+    .note-title { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink-400); margin-bottom: 6px; }
+    .note-text { font-size: 0.88rem; color: var(--text-mid); line-height: 1.65; font-weight: 500; }
+
+    /* TABLE */
+    .schedule-wrapper { max-width: 1240px; margin: 0 auto; padding: 0 14px; position: relative; z-index: 1; }
+    .table-container {
+      background: rgba(255,255,255,0.78); border-radius: var(--radius);
+      box-shadow: var(--shadow-lg); backdrop-filter: blur(20px);
+      border: 1.5px solid rgba(255,173,210,0.4); overflow: hidden;
+    }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    col.col-time { width: 72px; }
+    col.col-day  { width: calc((100% - 72px) / 7); }
+
+    thead th { padding: 14px 8px; text-align: center; font-size: 0.78rem; font-weight: 700; }
+    thead th.col-time-h {
+      background: linear-gradient(180deg, #fce4f4, #f9c8e9);
+      color: var(--text-soft); font-size: 0.68rem;
+      border-right: 2px solid rgba(255,173,210,0.45);
+    }
+    .day-header {
+      background: linear-gradient(180deg, #ffdaf0 0%, #ffb3d4 100%);
+      color: var(--text-dark); border-right: 1px solid rgba(255,173,210,0.3);
+    }
+    .day-header .day-name { font-size: 0.82rem; font-weight: 800; }
+    .day-header .day-date { font-size: 0.68rem; font-weight: 500; color: var(--text-soft); margin-top: 3px; }
+    .day-header.weekend { background: linear-gradient(180deg, #f3e8ff 0%, #d8b4fe 100%); }
+    .day-header.weekend .day-name { color: #6b21a8; }
+    .day-header.weekend .day-date { color: #9333ea; }
+
+    tbody tr { transition: background 0.15s; }
+    tbody tr:hover { background: rgba(255,192,203,0.08); }
+    td {
+      padding: 7px 6px; text-align: center; font-size: 0.76rem;
+      font-weight: 500; color: var(--text-mid);
+      border-bottom: 1px solid rgba(255,182,193,0.22);
+      border-right: 1px solid rgba(255,182,193,0.18);
+      vertical-align: middle; word-break: break-word; line-height: 1.4;
+    }
+    td:last-child { border-right: none; }
+    tbody tr:last-child td { border-bottom: none; }
+    td.time-cell {
+      background: linear-gradient(90deg, rgba(252,228,244,0.95), rgba(255,240,248,0.5));
+      font-weight: 700; font-size: 0.75rem; color: var(--pink-500);
+      border-right: 2px solid rgba(255,173,210,0.4); white-space: nowrap;
+    }
+
+    /* Merged cell left accent */
+    td.merged { position: relative; }
+    td.merged::before {
+      content: ''; position: absolute;
+      left: 0; top: 8%; bottom: 8%; width: 3px; border-radius: 2px;
+    }
+    td.mg-school::before   { background: #93c5fd; }
+    td.mg-extra::before    { background: #6ee7b7; }
+    td.mg-sleep::before    { background: #f9a8d4; }
+    td.mg-eat::before      { background: #fcd34d; }
+    td.mg-cam::before      { background: #c4b5fd; }
+    td.mg-activity::before { background: #7dd3fc; }
+    td.mg-rest::before     { background: #d1d5db; }
+    td.mg-fun::before      { background: #fca5a5; }
+
+    /* CHIPS */
+    .chip { display: inline-block; padding: 3px 9px; border-radius: 100px; font-size: 0.72rem; font-weight: 600; line-height: 1.4; white-space: normal; }
+    .chip-sleep    { background: #fce7f3; color: #be185d; border: 1px solid #fbcfe8; }
+    .chip-school   { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+    .chip-extra    { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+    .chip-rest     { background: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb; }
+    .chip-eat      { background: #fef9c3; color: #92400e; border: 1px solid #fde68a; }
+    .chip-fun      { background: #ffe4e6; color: #9f1239; border: 1px solid #fecdd3; }
+    .chip-activity { background: #e0f2fe; color: #075985; border: 1px solid #bae6fd; }
+    .chip-cam      { background: #f5f3ff; color: #4c1d95; border: 1px solid #ddd6fe; }
+
+    /* BOTTOM */
+    .bottom-section {
+      max-width: 1240px; margin: 24px auto 0; padding: 0 14px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+      position: relative; z-index: 1;
+    }
+    @media (max-width: 640px) { .bottom-section { grid-template-columns: 1fr; } }
+    .card {
+      background: rgba(255,255,255,0.75); border-radius: var(--radius);
+      box-shadow: var(--shadow-sm); border: 1.5px solid rgba(255,173,210,0.35);
+      padding: 20px 22px; backdrop-filter: blur(10px);
+    }
+    .card-title { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink-400); margin-bottom: 14px; }
+    .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--text-mid); font-weight: 500; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .todo-list { list-style: none; }
+    .todo-list li { display: flex; gap: 10px; font-size: 0.84rem; color: var(--text-mid); font-weight: 500; padding: 8px 0; border-bottom: 1px solid rgba(255,182,193,0.2); line-height: 1.5; }
+    .todo-list li:last-child { border-bottom: none; }
+    .todo-list li::before { content: '✦'; color: var(--pink-400); font-size: 0.68rem; margin-top: 4px; flex-shrink: 0; }
+
+    footer { text-align: center; padding: 32px 20px 0; font-size: 0.8rem; color: var(--text-soft); font-weight: 500; position: relative; z-index: 1; }
+    footer span { background: rgba(255,255,255,0.6); padding: 6px 20px; border-radius: 100px; border: 1px solid var(--pink-200); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    header           { animation: fadeUp 0.6s ease both; }
+    .note-banner     { animation: fadeUp 0.6s 0.08s ease both; }
+    .table-container { animation: fadeUp 0.65s 0.18s ease both; }
+    .bottom-section  { animation: fadeUp 0.65s 0.3s ease both; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">🌸 Kế hoạch cá nhân</div>
+  <h1>Lịch Tuần của Thy</h1>
+  <div class="header-week">
+    <span>Tuần từ ngày <strong>23/03/2026</strong> đến <strong>29/03/2026</strong></span>
+  </div>
+</header>
+
+<div class="note-banner">
+  <div class="note-card">
+    <div class="note-icon">📌</div>
+    <div>
+      <div class="note-title">Ghi Chú Quan Trọng</div>
+      <div class="note-text">
+        🏕️ <strong>Thứ 5 & 6 (26–27/03):</strong> Cắm trại — thức tới sáng hôm sau.<br>
+        🏫 <strong>Thứ 7:</strong> Nhà trường có thể xếp buổi ngoại khoá → sinh hoạt như các ngày thứ 2–6.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="schedule-wrapper">
+  <div class="table-container">
+    <div class="table-scroll">
+      <table>
+        <colgroup>
+          <col class="col-time">
+          <col class="col-day"><col class="col-day"><col class="col-day">
+          <col class="col-day"><col class="col-day"><col class="col-day"><col class="col-day">
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="col-time-h">⏰ Giờ</th>
+            <th class="day-header"><div class="day-name">THỨ HAI</div><div class="day-date">23/03</div></th>
+            <th class="day-header"><div class="day-name">THỨ BA</div><div class="day-date">24/03</div></th>
+            <th class="day-header"><div class="day-name">THỨ TƯ</div><div class="day-date">25/03</div></th>
+            <th class="day-header"><div class="day-name">THỨ NĂM</div><div class="day-date">26/03</div></th>
+            <th class="day-header"><div class="day-name">THỨ SÁU</div><div class="day-date">27/03</div></th>
+            <th class="day-header weekend"><div class="day-name">THỨ BẢY</div><div class="day-date">28/03</div></th>
+            <th class="day-header weekend"><div class="day-name">CHỦ NHẬT</div><div class="day-date">29/03</div></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-section">
+  <div class="card">
+    <div class="card-title">🎨 Chú giải màu sắc</div>
+    <div class="legend-grid">
+      <div class="legend-item"><span class="legend-dot" style="background:#be185d"></span>Ngủ / Nghỉ ngơi</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#1e40af"></span>Học trên lớp</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#065f46"></span>Học thêm</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#92400e"></span>Ăn uống</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#075985"></span>Hoạt động / TD</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#4c1d95"></span>Check cam Minyh</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#9f1239"></span>Vui chơi 😄</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#6b7280"></span>Tự do / Nghỉ</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">✅ Việc cần làm trong tuần</div>
+    <ul class="todo-list">
+      <li>Chuẩn bị đồ cắm trại cho thứ 5 và thứ 6</li>
+      <li>Học đủ buổi thêm: Hóa, Toán, Vật Lý, Tiếng Anh, Văn</li>
+      <li>Tham gia HĐTNHN vào chiều thứ 5</li>
+      <li>Hoàn thành bài tập trước giờ học thêm mỗi ngày</li>
+      <li>Check cam Minyh theo lịch hàng ngày</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <span>M: Cố lên nè ~ 🌸 </span>
+</footer>
+
+<script>
+// ── Data từ xlsx sau khi xử lý merged cells ──
+// Mỗi phần tử: { t: text, type: loại, rs: rowspan } hoặc null (ô bị gộp bên trên)
+
+const C = (t, type, rs = 1) => ({ t, type, rs });
+const _ = null; // bị gộp bởi ô phía trên
+
+// [time, Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+const ROWS = [
+  ['05:00',
+    C('Ngủ, 5h30–6h dậy','sleep'),   C('Ngủ, 5h30–6h dậy','sleep'),
+    C('Ngủ, 5h30–6h dậy','sleep'),   C('Ngủ, 5h30–6h dậy','sleep'),
+    C('Ngủ, 5h30–6h dậy','sleep'),   C('Ngủ','sleep',2),   C('Ngủ','sleep',2)],
+
+  ['06:00',
+    C('Ăn sáng\nThay đồ đi học (áo dài)','eat'),  C('Ăn sáng\nThay đồ đi học','eat'),
+    C('Ăn sáng\nThay đồ đi học','eat'),            C('Ăn sáng\nThay đồ đi học','eat'),
+    C('Ăn sáng\nThay đồ đi học','eat'),            _,                    _],
+
+  ['07:00',
+    C('Học trên lớp','school',4),   C('Học trên lớp','school',4),
+    C('Học trên lớp','school',3),   C('Học trên lớp','school',3),
+    C('Học trên lớp','school',3),   C('Dậy\nThay đồ, ăn sáng','eat'), C('Dậy','rest')],
+
+  ['08:00', _, _, _, _, _, C('Nghỉ','rest',5), C('Nghỉ','rest',5)],
+  ['09:00', _, _, _, _, _, _, _],
+
+  ['10:00',
+    _,  _,
+    C('Học\n10h30 lên xe về','school'),  C('Học\n10h30 lên xe về','school'),
+    C('Học\n10h30 lên xe về','school'),  _, _],
+
+  ['11:00',
+    C('Học\n11h15 lên xe về','school'),  C('Học\n11h15 lên xe về','school'),
+    C('Nghỉ','rest'),   C('Nghỉ','rest'),   C('Nghỉ','rest'),   _,  _],
+
+  ['12:00',
+    C('Ăn cơm\n12h30 rửa chén / chơi game','eat'),
+    C('Ăn cơm\n12h30 rửa chén / chơi game','eat'),
+    C('Ăn cơm\n12h30 rửa chén / chơi game','eat'),
+    C('Ăn cơm\n12h30 rửa chén / chơi game','eat'),
+    C('Ăn cơm\n12h30 rửa chén / chơi game','eat'),
+    _, _],
+
+  ['13:00',
+    C('Check cam Minyh','cam',4),   C('Học thêm Hóa','extra',2),
+    C('Check cam Minyh','cam',4),   C('Học thêm Hóa','extra',1),
+    C('Check cam Minyh','cam',1),   C('Học thêm Hóa','extra',2),  C('Check cam Minyh','cam',1)],
+
+  ['14:00',
+    _,  _,  _,
+    C('Lên trường\nHĐTNHN','activity',3),
+    C('Học GDQP, TD','activity',3),
+    _,  C('Ngủ','sleep',3)],
+
+  ['15:00',
+    _,  C('Nghỉ','rest',2),  _,  _,  _,
+    C('Học thêm Văn','extra',2),  _],
+
+  ['16:00', _, _, _, _, _, _, _],
+
+  ['17:00',
+    C('Học thêm T.Anh\n6h45 chuyển ca','extra',2),  C('Nghỉ','rest',2),
+    C('Học thêm T.Anh\n6h45 chuyển ca','extra',2),  C('Nghỉ','rest',2),
+    C('Học thêm T.Anh\n6h45 chuyển ca','extra',2),  C('Nghỉ','rest',2),
+    C('Học thêm Văn','extra',2)],
+
+  ['18:00', _, _, _, _, _, _, _],
+
+  ['19:00',
+    C('Học thêm V.Lý','extra',2),   C('Học thêm Toán','extra',2),
+    C('Học thêm V.Lý','extra',2),   C('Học thêm Toán','extra',2),
+    C('Học thêm V.Lý','extra',2),   C('Học thêm Toán','extra',2),
+    C('Nghỉ','rest',2)],
+
+  ['20:00', _, _, _, _, _, _, _],
+
+  ['21:00',
+    C('Chọc anh Minh 😄','fun',2),  C('Chọc anh Minh 😄','fun',2),
+    C('Chọc anh Minh 😄','fun',2),  C('Chọc anh Minh 😄','fun',2),
+    C('Chọc anh Minh 😄','fun',2),  C('Chọc anh Minh 😄','fun',2),
+    C('Chọc anh Minh 😄','fun',2)],
+
+  ['22:00', _, _, _, _, _, _, _],
+
+  ['23:00',
+    C('Ngủ 😴','sleep',2),  C('Ngủ 😴','sleep',2),
+    C('Ngủ 😴','sleep',2),  C('Ngủ 😴','sleep',2),
+    C('Ngủ 😴','sleep',2),  C('Ngủ 😴','sleep',2),
+    C('Ngủ 😴','sleep',2)],
+
+  ['00:00', _, _, _, _, _, _, _],
+];
+
+const CHIP = {
+  sleep:    'chip chip-sleep',
+  school:   'chip chip-school',
+  extra:    'chip chip-extra',
+  rest:     'chip chip-rest',
+  eat:      'chip chip-eat',
+  fun:      'chip chip-fun',
+  activity: 'chip chip-activity',
+  cam:      'chip chip-cam',
+};
+const MG_CLS = type => type ? `mg-${type}` : '';
+
+const tbody = document.getElementById('tbody');
+
+ROWS.forEach(([time, ...cells]) => {
+  const tr = document.createElement('tr');
+
+  // Time cell
+  const timeTd = document.createElement('td');
+  timeTd.className = 'time-cell';
+  timeTd.textContent = time;
+  tr.appendChild(timeTd);
+
+  cells.forEach(cell => {
+    if (cell === null) return; // skip — covered by rowspan
+    const td = document.createElement('td');
+    if (cell.rs > 1) {
+      td.rowSpan = cell.rs;
+      td.classList.add('merged', MG_CLS(cell.type));
+    }
+    const lines = cell.t.split('\n').filter(l => l.trim());
+    td.innerHTML = lines
+      .map(l => `<span class="${CHIP[cell.type] || 'chip chip-rest'}">${l.trim()}</span>`)
+      .join('<br style="margin:2px 0">');
+    tr.appendChild(td);
+  });
+
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>
