@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walmart's E-Logistics Case Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --walmart-blue: #0071CE;
+    --walmart-gold: #FFC220;
+    --ink: #0F1923;
+    --paper: #F5F0E8;
+    --paper-dark: #EAE4D6;
+    --slate: #4A5568;
+    --accent-green: #2D6A4F;
+    --grid-color: rgba(0,113,206,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* Grid texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 8vw;
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,194,32,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,194,32,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .hero-spark {
+    position: absolute;
+    top: 40px;
+    right: 8vw;
+    width: 60px;
+    height: 60px;
+    opacity: 0.9;
+    animation: spin 20s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--walmart-gold);
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 10vw, 130px);
+    line-height: 0.92;
+    color: #fff;
+    letter-spacing: 0.01em;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  .hero h1 span { color: var(--walmart-gold); }
+
+  .hero-sub {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.5vw, 28px);
+    color: rgba(255,255,255,0.55);
+    margin-top: 24px;
+    max-width: 600px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 64px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .hero-stat { border-left: 3px solid var(--walmart-gold); padding-left: 20px; }
+  .hero-stat .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: #fff;
+    line-height: 1;
+  }
+  .hero-stat .label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 80px 8vw;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--walmart-blue);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 40px;
+  }
+
+  .section-title span { color: var(--walmart-blue); }
+
+  .prose {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--slate);
+    max-width: 800px;
+  }
+
+  .prose + .prose { margin-top: 20px; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--paper-dark);
+    margin: 0;
+  }
+
+  .divider-bold {
+    border: none;
+    height: 4px;
+    background: linear-gradient(90deg, var(--walmart-blue) 0%, var(--walmart-gold) 100%);
+    margin: 0;
+  }
+
+  /* ── STAT BAND ── */
+  .stat-band {
+    background: var(--walmart-blue);
+    padding: 64px 8vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+  }
+
+  .band-stat { text-align: center; }
+  .band-stat .big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    color: #fff;
+    line-height: 1;
+  }
+  .band-stat .big span { color: var(--walmart-gold); }
+  .band-stat p {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-top: 8px;
+  }
+
+  /* ── CARD GRID ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--paper-dark);
+    padding: 32px;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 4px;
+    background: var(--walmart-gold);
+  }
+  .card.blue::before { background: var(--walmart-blue); }
+  .card.green::before { background: var(--accent-green); }
+
+  .card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: var(--paper-dark);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--slate);
+  }
+
+  /* ── TWO-COL LAYOUT ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; }
+    .hero-stats { gap: 24px; }
+  }
+
+  /* ── DELIVERY MATRIX TABLE ── */
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+    font-size: 14px;
+  }
+
+  .matrix-table thead tr {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  .matrix-table th {
+    padding: 16px 20px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .matrix-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--paper-dark);
+    color: var(--slate);
+  }
+
+  .matrix-table tr:nth-child(even) td { background: rgba(255,255,255,0.6); }
+  .matrix-table tr:hover td { background: rgba(0,113,206,0.04); }
+
+  .matrix-table td:first-child {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ── TECH STACK PYRAMID ── */
+  .pyramid-wrapper {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 700px;
+  }
+
+  .pyramid-tier {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 28px 32px;
+    border: 1px solid var(--paper-dark);
+    border-bottom: none;
+    transition: transform 0.2s;
+  }
+  .pyramid-tier:last-child { border-bottom: 1px solid var(--paper-dark); }
+  .pyramid-tier:hover { transform: translateX(8px); }
+
+  .tier-1 { background: var(--walmart-gold); }
+  .tier-2 { background: var(--walmart-blue); color: #fff; }
+  .tier-3 { background: var(--ink); color: #fff; }
+
+  .tier-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+    width: 48px;
+    text-align: center;
+  }
+
+  .tier-text h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+  }
+
+  .tier-text p {
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0.8;
+    margin-top: 4px;
+  }
+
+  /* ── OMNICHANNEL PIVOT DIAGRAM ── */
+  .pivot-diagram {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    align-items: center;
+    margin-top: 40px;
+    border: 1px solid var(--paper-dark);
+    overflow: hidden;
+  }
+
+  .pivot-col {
+    padding: 40px 32px;
+  }
+
+  .pivot-col.traditional { background: var(--paper-dark); }
+  .pivot-col.modern { background: #fff; }
+
+  .pivot-arrow {
+    padding: 24px 16px;
+    background: var(--walmart-blue);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 24px;
+    min-height: 200px;
+  }
+
+  .pivot-arrow span {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    opacity: 0.7;
+  }
+
+  .pivot-col h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    color: var(--ink);
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+
+  .flow-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    font-size: 13px;
+    color: var(--slate);
+    border-bottom: 1px dashed var(--paper-dark);
+  }
+  .flow-item:last-child { border-bottom: none; }
+
+  .flow-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── CHALLENGE CARDS ── */
+  .challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0;
+    margin-top: 40px;
+    border: 1px solid var(--paper-dark);
+  }
+
+  .challenge-item {
+    padding: 32px;
+    border-right: 1px solid var(--paper-dark);
+    position: relative;
+  }
+
+  .challenge-item:last-child { border-right: none; }
+
+  .challenge-item::before {
+    content: '⚠';
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    font-size: 18px;
+    color: #C53030;
+    opacity: 0.4;
+  }
+
+  .challenge-item h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .challenge-item p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--slate);
+  }
+
+  /* ── RECOMMENDATIONS ── */
+  .rec-list { margin-top: 40px; }
+
+  .rec-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0;
+    border: 1px solid var(--paper-dark);
+    margin-bottom: -1px;
+    transition: background 0.2s;
+  }
+
+  .rec-item:hover { background: rgba(255,194,32,0.05); }
+
+  .rec-num {
+    background: var(--walmart-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--ink);
+  }
+
+  .rec-body { padding: 28px 32px; }
+
+  .rec-body h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 19px;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .rec-body p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--slate);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--ink);
+    padding: 60px 8vw;
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: #fff;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-logo span { color: var(--walmart-gold); }
+
+  .footer h5 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 12px;
+  }
+
+  .footer a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 6px;
+    transition: color 0.2s;
+  }
+  .footer a:hover { color: var(--walmart-gold); }
+
+  /* ── NAV ── */
+  .top-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8vw;
+    height: 56px;
+    background: rgba(15,25,35,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .nav-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: #fff;
+    letter-spacing: 0.1em;
+  }
+  .nav-brand span { color: var(--walmart-gold); }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--walmart-gold); }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .pivot-diagram { grid-template-columns: 1fr; }
+    .pivot-arrow { min-height: auto; }
+    .challenge-item { border-right: none; border-bottom: 1px solid var(--paper-dark); }
+    .challenge-item:last-child { border-bottom: none; }
+    .matrix-table { font-size: 12px; }
+    .matrix-table th, .matrix-table td { padding: 10px 12px; }
+  }
+
+  /* ── BLOCKQUOTE ── */
+  .pull-quote {
+    border-left: 6px solid var(--walmart-gold);
+    padding: 24px 32px;
+    margin: 40px 0;
+    background: rgba(255,194,32,0.06);
+  }
+
+  .pull-quote p {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.5vw, 24px);
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .pull-quote cite {
+    display: block;
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--walmart-blue);
+    font-style: normal;
+  }
+
+  /* ── TAG ── */
+  .tag {
+    display: inline-block;
+    background: var(--walmart-blue);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    margin-bottom: 16px;
+  }
+
+  .tag.gold { background: var(--walmart-gold); color: var(--ink); }
+  .tag.green { background: var(--accent-green); }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <div class="nav-brand">WALMART <span>E-LOGISTICS</span></div>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#omnichannel">Omnichannel</a></li>
+    <li><a href="#lastmile">Last Mile</a></li>
+    <li><a href="#technology">Technology</a></li>
+    <li><a href="#recommendations">Recommendations</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Walmart spark icon -->
+  <svg class="hero-spark" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M30 4L34.5 25.5L56 30L34.5 34.5L30 56L25.5 34.5L4 30L25.5 25.5L30 4Z" fill="#FFC220"/>
+  </svg>
+
+  <div class="hero-eyebrow">Case Analysis · E-Logistics · Omnichannel Strategy</div>
+  <h1>WALMART'S<br><span>E-LOGISTICS</span><br>TRANSFORMATION</h1>
+  <p class="hero-sub">Engineering the Omnichannel Supply Chain — from stores as liabilities to stores as fulfilment engines.</p>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">$648B</div>
+      <div class="label">Net Sales FY2024</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">10,500+</div>
+      <div class="label">Stores & Clubs, 19 Countries</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">2.1M+</div>
+      <div class="label">US Associates</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">90%</div>
+      <div class="label">US Pop. within 10 miles of a Store</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-bold"></div>
+
+<!-- ── EXECUTIVE SUMMARY ── -->
+<section class="section" id="overview">
+  <div class="section-label">Executive Summary</div>
+  <h2 class="section-title">OVERVIEW &amp; <span>CORE THESIS</span></h2>
+
+  <div class="two-col">
+    <div>
+      <p class="prose">Walmart Inc. stands as the world's largest retailer by revenue, operating over 10,500 stores across 19 countries while simultaneously managing one of the most ambitious digital commerce transformations in retail history. Faced with intensifying competition from Amazon and the accelerating shift toward e-commerce, Walmart has invested heavily in rebuilding its logistics infrastructure around an omnichannel model.</p>
+      <p class="prose" style="margin-top:20px">Rather than competing with Amazon by building a parallel warehouse network from scratch, Walmart chose to exploit the competitive advantage it already possessed: <strong>proximity to consumers.</strong> Approximately 90% of the U.S. population lives within 10 miles of a Walmart location — an unparalleled geographic density that no pure-play e-commerce rival can replicate quickly or cheaply.</p>
+    </div>
+    <div>
+      <div class="pull-quote">
+        <p>The core insight: physical retail infrastructure, when intelligently integrated with digital logistics capabilities, is a source of durable competitive advantage — not a liability to be abandoned.</p>
+        <cite>Report Thesis</cite>
+      </div>
+      <p class="prose" style="margin-top:20px">This report examines how Walmart applies e-logistics principles across four interconnected domains: omnichannel fulfillment strategy, warehouse &amp; automation technology, last-mile delivery innovation, and supply chain visibility.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── CONCEPTUAL FRAMEWORK ── -->
+<section class="section">
+  <div class="section-label">Literature &amp; Theory</div>
+  <h2 class="section-title">CONCEPTUAL <span>FRAMEWORK</span></h2>
+
+  <div class="card-grid">
+    <div class="card blue">
+      <div class="card-num">01</div>
+      <h3>E-Logistics</h3>
+      <p>The application of digital technologies to the planning, execution, and control of goods, information, and services across a supply chain. Characterised by real-time information exchange, demand-driven fulfilment, and direct-to-consumer delivery — driven by the "Amazon Effect."</p>
+    </div>
+    <div class="card">
+      <div class="card-num">02</div>
+      <h3>Omnichannel Logistics</h3>
+      <p>Integration of physical and digital retail channels to deliver a seamless customer experience. Unlike multichannel logistics, omnichannel requires full integration of inventory, fulfilment, and customer service. Key models include SFS, BOPIS, curbside pickup, and SFW.</p>
+    </div>
+    <div class="card green">
+      <div class="card-num">03</div>
+      <h3>Last-Mile Delivery</h3>
+      <p>The final segment from distribution point to end consumer — widely the most complex and costly element of e-logistics, accounting for up to <strong>53%</strong> of total shipping costs. Innovations include crowdsourced delivery, autonomous vehicles, drone delivery, and collection lockers.</p>
+    </div>
+    <div class="card blue">
+      <div class="card-num">04</div>
+      <h3>Supply Chain Visibility</h3>
+      <p>The ability to track products, inventory, and shipments in real time across the entire supply chain. Enabled by RFID, IoT sensors, AI/ML for demand forecasting, and blockchain for immutable records. High visibility reduces stockouts and improves on-shelf availability.</p>
+    </div>
+  </div>
+</section>
+
+<div class="stat-band">
+  <div class="band-stat">
+    <div class="big"><span>53%</span></div>
+    <p>of shipping costs: last mile</p>
+  </div>
+  <div class="band-stat">
+    <div class="big">30<span>%+</span></div>
+    <p>e-commerce return rates in some categories</p>
+  </div>
+  <div class="band-stat">
+    <div class="big"><span>4,700+</span></div>
+    <p>US store locations to integrate</p>
+  </div>
+  <div class="band-stat">
+    <div class="big">2<span>s</span></div>
+    <p>food trace time with IBM Food Trust blockchain vs. days/weeks</p>
+  </div>
+</div>
+
+<!-- ── OMNICHANNEL ── -->
+<section class="section" id="omnichannel">
+  <div class="section-label">Case Analysis · Section 3.1</div>
+  <h2 class="section-title">THE OMNICHANNEL <span>PIVOT</span></h2>
+
+  <p class="prose">Walmart's omnichannel strategy is anchored in a fundamental insight: approximately 90% of the U.S. population lives within 10 miles of a Walmart store. This geographic density, built over six decades of retail expansion, gives Walmart an unparalleled network of last-mile fulfilment points.</p>
+  <p class="prose" style="margin-top:16px">The <strong>ship-from-store (SFS)</strong> model is central to this approach. When a customer places an online order, Walmart's order management system dynamically selects the nearest store with available inventory, reducing delivery distance, lowering shipping costs, and enabling same-day or next-day delivery at scale.</p>
+
+  <!-- Pivot diagram -->
+  <div class="pivot-diagram">
+    <div class="pivot-col traditional">
+      <h4>Traditional Logistics</h4>
+      <div class="flow-item"><div class="flow-dot" style="background:#888"></div>Siloed channels — online &amp; offline separate</div>
+      <div class="flow-item"><div class="flow-dot" style="background:#888"></div>Batch processing at each stage</div>
+      <div class="flow-item"><div class="flow-dot" style="background:#888"></div>Linear: Supplier → DC → Store</div>
+      <div class="flow-item"><div class="flow-dot" style="background:#888"></div>Store as endpoint, not fulfilment node</div>
+      <div class="flow-item"><div class="flow-dot" style="background:#888"></div>Physical retail seen as a liability</div>
+    </div>
+    <div class="pivot-arrow">
+      →
+      <span>Catalysts: Amazon Effect &amp; COVID-19</span>
+    </div>
+    <div class="pivot-col modern">
+      <h4>E-Logistics &amp; Omnichannel</h4>
+      <div class="flow-item"><div class="flow-dot" style="background:var(--walmart-blue)"></div>Real-time information exchange across all channels</div>
+      <div class="flow-item"><div class="flow-dot" style="background:var(--walmart-blue)"></div>Demand-driven fulfilment</div>
+      <div class="flow-item"><div class="flow-dot" style="background:var(--walmart-blue)"></div>Networked hub: SFS, BOPIS, curbside, drone</div>
+      <div class="flow-item"><div class="flow-dot" style="background:var(--walmart-blue)"></div>Store as distribution hub</div>
+      <div class="flow-item"><div class="flow-dot" style="background:var(--walmart-blue)"></div>Physical assets power digital fulfilment</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── WAREHOUSE AUTOMATION ── -->
+<section class="section">
+  <div class="section-label">Case Analysis · Section 3.2</div>
+  <h2 class="section-title">WAREHOUSE AUTOMATION <span>&amp; TECHNOLOGY</span></h2>
+
+  <div class="two-col">
+    <div>
+      <p class="prose">In 2021, Walmart announced a strategic partnership with <strong>Symbotic</strong>, a robotics and AI company, to deploy autonomous mobile robot (AMR) systems across its regional distribution centres. The Symbotic system sorts, stores, and retrieves products with dramatically increased throughput and accuracy while reducing reliance on manual labour.</p>
+      <p class="prose" style="margin-top:16px">Beyond regional DCs, Walmart has deployed automated <strong>micro-fulfilment centres (MFCs)</strong> attached to or embedded within its retail stores, using compact robotic systems to pick grocery and general merchandise orders at high speed. The automation of in-store picking is critical to making the ship-from-store model economically viable at scale.</p>
+    </div>
+    <div>
+      <div class="tag">Node 1 — Store as Hub</div>
+      <div style="background:#fff; border:1px solid var(--paper-dark); padding:24px; margin-bottom:16px;">
+        <p style="font-size:14px;color:var(--slate);line-height:1.7">A dynamic order management system selects the <em>nearest store with available inventory</em>, bypassing distant distribution centres to slash delivery time and cost. BOPIS and curbside services eliminate last-mile costs entirely while driving in-store foot traffic.</p>
+      </div>
+      <div class="tag gold">Node 2 — Regional AMRs</div>
+      <div style="background:#fff; border:1px solid var(--paper-dark); padding:24px;">
+        <p style="font-size:14px;color:var(--slate);line-height:1.7">High-density storage processes significantly more units per hour than conventional warehouses. Algorithmic sorting replaces manual, repetitive picking. Reduces reliance on manual labour for heavy tasks, improving supplier-to-store flow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── LAST MILE ── -->
+<section class="section" id="lastmile">
+  <div class="section-label">Case Analysis · Section 3.3</div>
+  <h2 class="section-title">THE LAST-MILE <span>DELIVERY GRID</span></h2>
+
+  <p class="prose">Last-mile delivery is the domain where Walmart has shown the most visible innovation. The company has deployed a multi-modal delivery strategy that combines Walmart+, the Spark Driver crowdsourced network, drone delivery via DroneUp, and the premium InHome delivery service.</p>
+
+  <table class="matrix-table">
+    <thead>
+      <tr>
+        <th>Delivery Method</th>
+        <th>Operational Model</th>
+        <th>Primary Value Proposition</th>
+        <th>Optimal Geography</th>
+        <th>Constraint</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Walmart+</td>
+        <td>Subscription</td>
+        <td>Recurring revenue offset for last-mile costs</td>
+        <td>National</td>
+        <td>Margin pressure without volume</td>
+      </tr>
+      <tr>
+        <td>Spark Driver</td>
+        <td>Gig-economy contractor</td>
+        <td>Variable cost &amp; surge capacity</td>
+        <td>Urban / Suburban</td>
+        <td>Reliance on external labour pool</td>
+      </tr>
+      <tr>
+        <td>DroneUp</td>
+        <td>Autonomous Aerial</td>
+        <td>Ultra-fast, low marginal cost per drop</td>
+        <td>Suburban / Rural</td>
+        <td>Payload weight &amp; weather; BVLOS regulatory limits</td>
+      </tr>
+      <tr>
+        <td>InHome</td>
+        <td>Premium Owned Fleet</td>
+        <td>Zero failed deliveries (last-yard solution)</td>
+        <td>Dense Suburbs</td>
+        <td>High fixed cost / Trust barrier</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:40px">
+    <p class="prose"><strong>Walmart+</strong>, launched in September 2020 as a direct response to Amazon Prime, offers members unlimited free delivery on orders above a minimum threshold for a fixed annual or monthly fee. The membership model incentivises higher order frequency and basket size, improving the economics of each delivery.</p>
+    <p class="prose" style="margin-top:16px"><strong>Drone delivery</strong> represents Walmart's most forward-looking investment. Through its DroneUp partnership, Walmart has operated drone delivery across multiple U.S. states, focusing on smaller, lightweight packages ideal for aerial transport. Drone delivery dramatically reduces per-delivery cost in suburban and rural areas where driving distances are longer.</p>
+    <p class="prose" style="margin-top:16px"><strong>InHome Delivery</strong> allows trained associates equipped with smart-lock technology to deliver groceries directly into a customer's home or garage refrigerator, even when absent — addressing the "last yard" problem of unattended delivery.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── TECH STACK ── -->
+<section class="section" id="technology">
+  <div class="section-label">Case Analysis · Section 3.4</div>
+  <h2 class="section-title">SUPPLY CHAIN <span>VISIBILITY STACK</span></h2>
+
+  <p class="prose">Walmart has built a three-layered technology stack for supply chain visibility, from granular item tracking at the base to immutable trust at the apex.</p>
+
+  <div class="pyramid-wrapper">
+    <div class="pyramid-tier tier-3">
+      <div class="tier-icon">⛓</div>
+      <div class="tier-text">
+        <h4>Apex Layer: Blockchain &amp; Immutable Trust</h4>
+        <p>IBM Food Trust platform for leafy greens &amp; high-risk foods. Traces food origin farm-to-shelf in seconds vs. days/weeks under traditional systems. Enables targeted recalls, minimising waste and protecting consumer safety.</p>
+      </div>
+    </div>
+    <div class="pyramid-tier tier-2">
+      <div class="tier-icon">🧠</div>
+      <div class="tier-text">
+        <h4>Middle Layer: Predictive AI &amp; Machine Learning</h4>
+        <p>Demand forecasting using historical sales, weather, local events, and real-time POS data. Generates item-level predictions to drive automated replenishment — balancing overstock reduction and stockout prevention. Aligns with Christopher's (2016) agile supply chain framework.</p>
+      </div>
+    </div>
+    <div class="pyramid-tier tier-1">
+      <div class="tier-icon" style="color:var(--ink)">📡</div>
+      <div class="tier-text" style="color:var(--ink)">
+        <h4>Base Layer: RFID Granular Tracking</h4>
+        <p>Mandated RFID tagging since 2010, expanded progressively from apparel to other categories. Tracks inventory at item level in near real time. Reduces shrinkage, eliminates blind spots, and triggers automated replenishment orders. Research confirms material reduction in out-of-stock rates.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pull-quote" style="margin-top:40px">
+    <p>High supply chain visibility directly correlates to reduced stockouts, improved on-shelf availability, and rapid demand response.</p>
+    <cite>Barratt &amp; Oke, 2007</cite>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── REVERSE LOGISTICS ── -->
+<section class="section">
+  <div class="section-label">Case Analysis · Section 3.5</div>
+  <h2 class="section-title">REVERSE <span>LOGISTICS</span></h2>
+
+  <div class="two-col">
+    <div>
+      <p class="prose">E-commerce return rates can exceed 30% in certain categories, making reverse logistics a critical and often underappreciated element of e-logistics cost management.</p>
+      <p class="prose" style="margin-top:16px">Walmart's <strong>Mobile Express Returns</strong> system allows online customers to initiate a return via the Walmart app and receive a QR code, which is scanned at an in-store kiosk to process the return in under one minute — without any staff involvement. This dramatically reduces friction and drives additional in-store traffic.</p>
+      <p class="prose" style="margin-top:16px">Walmart has also partnered with third-party resale and liquidation platforms to process returned merchandise efficiently, reducing the cost of returns disposition.</p>
+    </div>
+    <div>
+      <div style="background:#fff; border:1px solid var(--paper-dark); padding:32px;">
+        <div class="tag gold">The Reverse Loop</div>
+        <div class="flow-item" style="padding:12px 0;"><div class="flow-dot" style="background:var(--walmart-gold);width:10px;height:10px"></div><strong style="margin-right:8px">Consumer</strong> initiates return via Walmart app → QR code issued</div>
+        <div class="flow-item" style="padding:12px 0;"><div class="flow-dot" style="background:var(--walmart-gold);width:10px;height:10px"></div><strong style="margin-right:8px">Store Kiosk</strong> processes in under 1 minute, no staff needed</div>
+        <div class="flow-item" style="padding:12px 0;"><div class="flow-dot" style="background:var(--walmart-gold);width:10px;height:10px"></div><strong style="margin-right:8px">Diversion</strong> from primary distribution to liquidation/resale channels</div>
+        <div class="flow-item" style="padding:12px 0;border:none"><div class="flow-dot" style="background:var(--walmart-gold);width:10px;height:10px"></div><strong style="margin-right:8px">Capital Recovery</strong> through resale, refurbishment, or liquidation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-bold"></div>
+
+<!-- ── CHALLENGES ── -->
+<section class="section">
+  <div class="section-label">Discussion · Section 4.2</div>
+  <h2 class="section-title">SYSTEM FRICTIONS <span>&amp; BOTTLENECKS</span></h2>
+
+  <div class="challenge-grid">
+    <div class="challenge-item">
+      <h4>Last-Mile Economics</h4>
+      <p>The economics of delivering a single low-margin grocery order remain challenging without membership revenue to subsidise costs. While SFS reduces delivery distances, profitability per order is not yet fully resolved.</p>
+    </div>
+    <div class="challenge-item">
+      <h4>Technological Scaling</h4>
+      <p>Rolling out MFCs, RFID readers, and new software systems consistently across 4,700+ U.S. stores with different physical layouts, equipment ages, and workforce skill levels is extraordinarily complex. Implementation inconsistencies undermine the benefits of technology.</p>
+    </div>
+    <div class="challenge-item">
+      <h4>The Amazon Benchmark</h4>
+      <p>Amazon's logistics network, built over two decades of sustained investment, benefits from purpose-built fulfilment centres, deep Prime consumer penetration, and increasing robotics and autonomous vehicle investment. It sets a continuously rising benchmark.</p>
+    </div>
+    <div class="challenge-item">
+      <h4>Labour Transition</h4>
+      <p>As automation takes over repetitive picking and sorting tasks, Walmart must manage the transition of its large workforce toward higher-value roles. Labour advocacy concerns about displacement create reputational and regulatory risks.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── RECOMMENDATIONS ── -->
+<section class="section" id="recommendations">
+  <div class="section-label">Section 5 · Strategic Recommendations</div>
+  <h2 class="section-title">THE ACTION <span>PLAN</span></h2>
+  <p class="prose">Five actionable recommendations to strengthen Walmart's e-logistics capabilities and address its most pressing vulnerabilities.</p>
+
+  <div class="rec-list" style="margin-top:32px">
+    <div class="rec-item">
+      <div class="rec-num">1</div>
+      <div class="rec-body">
+        <h4>Accelerate Micro-Fulfilment Automation</h4>
+        <p>Prioritise MFC rollout to the highest-volume stores at an accelerated pace — targeting the top 1,000 stores by order volume. This would significantly reduce in-store pick times, lower per-order fulfilment costs, and reduce shopping-floor disruption. Evaluate partnering with additional MFC technology providers alongside Symbotic to avoid over-reliance on a single vendor.</p>
+      </div>
+    </div>
+    <div class="rec-item">
+      <div class="rec-num">2</div>
+      <div class="rec-body">
+        <h4>Expand Drone Delivery to Suburban &amp; Rural Markets</h4>
+        <p>Drone economics improve significantly in areas where driving distances are longer and population density is lower. Work proactively with the FAA to accelerate BVLOS approval for expanded operations, and deploy drone hubs at a wider set of store locations. A phased expansion targeting markets where ground transport cost-per-delivery is highest will generate the best ROI.</p>
+      </div>
+    </div>
+    <div class="rec-item">
+      <div class="rec-num">3</div>
+      <div class="rec-body">
+        <h4>Invest in Green Last-Mile Logistics</h4>
+        <p>Commit to a timeline for transitioning Spark Driver and owned delivery fleets to electric vehicles via EV purchase incentives for contractors, charging infrastructure investment at store locations, and procurement of EV delivery vans for the InHome fleet. This aligns with Project Gigaton environmental commitments and reduces long-term fuel cost exposure.</p>
+      </div>
+    </div>
+    <div class="rec-item">
+      <div class="rec-num">4</div>
+      <div class="rec-body">
+        <h4>Strengthen &amp; Centralise Reverse Logistics</h4>
+        <p>Invest in dedicated returns processing hubs — separate from primary distribution centres — equipped with automated grading and sorting systems to rapidly categorise returned items for resale, refurbishment, donation, or liquidation. This reduces store-associate burden, speeds high-value return processing, and improves inventory recovery rates.</p>
+      </div>
+    </div>
+    <div class="rec-item">
+      <div class="rec-num">5</div>
+      <div class="rec-body">
+        <h4>Deepen AI Integration for Predictive Supply Chain Management</h4>
+        <p>Expand AI/ML capabilities beyond demand forecasting to encompass end-to-end predictive supply chain management: AI-driven supplier lead time prediction, automated dynamic pricing based on inventory levels and demand signals, and predictive maintenance for warehouse automation equipment. Extending AI across more dimensions reduces carrying costs and increases fulfilment system reliability.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-bold"></div>
+
+<!-- ── CONCLUSION ── -->
+<section class="section">
+  <div class="section-label">Section 6 · Conclusion</div>
+  <h2 class="section-title">THE BLUEPRINT <span>FOR SURVIVAL</span></h2>
+
+  <div class="two-col">
+    <div>
+      <p class="prose">Walmart's e-logistics transformation represents one of the most significant cases of omnichannel logistics integration in contemporary retail. Faced with existential competitive pressure from Amazon and shifting consumer expectations, Walmart has systematically reimagined its supply chain — converting its vast physical store network from a potential liability into a strategic fulfilment advantage.</p>
+      <p class="prose" style="margin-top:16px">The company's application of e-logistics principles — omnichannel integration, demand-driven fulfilment, real-time supply chain visibility, and last-mile innovation — is both theoretically grounded and practically sophisticated.</p>
+    </div>
+    <div>
+      <div class="pull-quote">
+        <p>Walmart proves that legacy physical footprints are not stranded assets — they are the foundation of the next-generation digital logistics grid.</p>
+        <cite>Report Conclusion</cite>
+      </div>
+      <p class="prose" style="margin-top:20px">Its investments in Symbotic robotics, micro-fulfilment centres, Spark Driver, DroneUp drone delivery, RFID-based inventory management, and IBM Food Trust blockchain collectively represent a multi-layered, technology-enabled logistics ecosystem.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">WALMART <span>E-LOGISTICS</span></div>
+      <p style="margin-top:12px;max-width:340px">Engineering the Omnichannel Supply Chain — a case analysis examining how a legacy retailer competes in the digital era.</p>
+    </div>
+    <div>
+      <h5>Key Sections</h5>
+      <a href="#overview">Executive Summary</a>
+      <a href="#omnichannel">Omnichannel Fulfilment</a>
+      <a href="#lastmile">Last-Mile Delivery</a>
+      <a href="#technology">Supply Chain Visibility</a>
+      <a href="#recommendations">Strategic Recommendations</a>
+    </div>
+    <div>
+      <h5>References</h5>
+      <p>Walmart Inc. Annual Report (2024)</p>
+      <p>Symbotic (2023)</p>
+      <p>DroneUp (2023)</p>
+      <p>IBM Food Trust (2021)</p>
+      <p>Statista (2023)</p>
+      <p>Verhoef et al. (2015); Christopher (2016)</p>
+      <p>Barratt &amp; Oke (2007); Hübner et al. (2016)</p>
+    </div>
+  </div>
+  <p style="text-align:center;opacity:0.3;font-size:12px">Case Analysis Report — Walmart E-Logistics Transformation · For Academic &amp; Research Purposes</p>
+</footer>
+
+</body>
+</html>
