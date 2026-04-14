@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thời Gian Biểu</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: linear-gradient(145deg, #e8f4fc 0%, #f5f9fe 40%, #ffffff 70%, #eef7fb 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: #1a3a52;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; }
+
+  h1 {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #1565a0;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #7baac8;
+    margin-bottom: 32px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .legend {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: #3a6080;
+  }
+  .legend-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 32px rgba(100,160,220,0.13), 0 1px 4px rgba(100,160,220,0.08);
+    border: 1px solid rgba(178,217,245,0.5);
+  }
+
+  thead tr th {
+    padding: 14px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1565a0;
+    background: linear-gradient(180deg, #dbeeff 0%, #eaf5fd 100%);
+    border-bottom: 1.5px solid #b8daf5;
+    text-align: center;
+  }
+  thead tr th:first-child { text-align: left; padding-left: 22px; }
+
+  tbody tr { transition: background 0.15s; }
+  tbody tr:hover td { background: rgba(210,236,252,0.35) !important; }
+
+  tbody tr:nth-child(odd) td  { background: rgba(255,255,255,0.6); }
+  tbody tr:nth-child(even) td { background: rgba(240,250,255,0.55); }
+
+  td {
+    padding: 12px 10px;
+    vertical-align: middle;
+    text-align: center;
+    border-bottom: 1px solid rgba(178,217,245,0.35);
+    font-size: 13px;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .day-cell {
+    text-align: left;
+    padding-left: 22px;
+    font-weight: 600;
+    font-size: 13.5px;
+    color: #1565a0;
+    white-space: nowrap;
+    min-width: 90px;
+  }
+
+  .pill {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 12px 4px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 2px;
+  }
+  .pill .ptime {
+    font-size: 10.5px;
+    font-weight: 400;
+    opacity: 0.8;
+    margin-top: 1px;
+  }
+
+  .school { background: #d6eeff; color: #0d4f8a; border: 1px solid #a8d4f5; }
+  .hm     { background: #d7f3e8; color: #0a5c3e; border: 1px solid #9ddec4; }
+  .at     { background: #fde8d5; color: #7c3410; border: 1px solid #f5c09e; }
+  .empty  { color: #b8d4e8; font-size: 16px; }
+
+  @media (max-width: 560px) {
+    h1 { font-size: 20px; }
+    .pill { padding: 4px 8px; font-size: 11px; }
+    .pill .ptime { font-size: 9.5px; }
+    .day-cell { font-size: 12.5px; padding-left: 12px; }
+    td { padding: 9px 5px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Thời Gian Biểu</h1>
+  <p class="subtitle">Lịch cố định hàng tuần</p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#4aa8e0;"></div> Học trên trường</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2db87a;"></div> Dạy thêm HM</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e88a45;"></div> Dạy thêm AT</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Thứ</th>
+        <th>Buổi sáng</th>
+        <th>Buổi chiều</th>
+        <th>Buổi tối</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="day-cell">Thứ Hai</td>
+        <td>
+          <span class="pill school">Học HM <span class="ptime">6:45 – 12:45</span></span>
+        </td>
+        <td><span class="empty">—</span></td>
+        <td><span class="empty">—</span></td>
+      </tr>
+      <tr>
+        <td class="day-cell">Thứ Ba</td>
+        <td>
+          <span class="pill school">Học trường <span class="ptime">6:45 – 12:25</span></span>
+        </td>
+        <td><span class="empty">—</span></td>
+        <td>
+          <span class="pill hm">Dạy HM <span class="ptime">20:00 – 21:15</span></span>
+        </td>
+      </tr>
+      <tr>
+        <td class="day-cell">Thứ Tư</td>
+        <td>
+          <span class="pill school">Học trường <span class="ptime">6:45 – 9:45</span></span>
+        </td>
+        <td><span class="empty">—</span></td>
+        <td><span class="empty">—</span></td>
+      </tr>
+      <tr>
+        <td class="day-cell">Thứ Năm</td>
+        <td><span class="empty">—</span></td>
+        <td><span class="empty">—</span></td>
+        <td>
+          <span class="pill hm">Dạy HM <span class="ptime">20:00 – 21:15</span></span>
+        </td>
+      </tr>
+      <tr>
+        <td class="day-cell">Thứ Sáu</td>
+        <td><span class="empty">—</span></td>
+        <td><span class="empty">—</span></td>
+        <td><span class="empty">—</span></td>
+      </tr>
+      <tr>
+        <td class="day-cell">Thứ Bảy</td>
+        <td><span class="empty">—</span></td>
+        <td>
+          <span class="pill at">Dạy AT <span class="ptime">14:00 – 15:30</span></span>
+        </td>
+        <td>
+          <span class="pill hm">Dạy HM <span class="ptime">19:30 – 20:45</span></span>
+        </td>
+      </tr>
+      <tr>
+        <td class="day-cell">Chủ Nhật</td>
+        <td><span class="empty">—</span></td>
+        <td><span class="empty">—</span></td>
+        <td>
+          <span class="pill at">Dạy AT <span class="ptime">19:00 – 20:30</span></span>
+          <span class="pill hm">Dạy HM <span class="ptime">20:30 – 21:45</span></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
